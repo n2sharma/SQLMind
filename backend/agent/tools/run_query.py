@@ -42,7 +42,17 @@ async def run_query(args: dict) -> dict:
         await conn.close()
 
     # Convert asyncpg Record objects to plain dicts
-    row_dicts = [dict(r) for r in rows]
+    from decimal import Decimal
+    from datetime import date, datetime
+
+    def _serialize(val):
+        if isinstance(val, Decimal):
+            return float(val)
+        if isinstance(val, (datetime, date)):
+            return val.isoformat()
+        return val
+
+    row_dicts = [{k: _serialize(v) for k, v in dict(r).items()} for r in rows]
 
     logger.info(
         "query_executed",
