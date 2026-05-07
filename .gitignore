@@ -1,0 +1,24 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Environment
+.env
+
+# SQL dumps
+chinook.sql
+
+# Node
+node_modules/
+.next/
+
+# Logs
+*.log
+
+# OS
+.DS_Store

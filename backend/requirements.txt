@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+asyncpg
+sqlglot
+structlog
+pydantic-settings
+google-genai
+openai
+python-dotenv
