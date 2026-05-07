@@ -5,7 +5,7 @@ logger = get_logger(__name__)
 
 
 class GeminiClient:
-    def __init__(self, api_key: str, model: str = "gemini-1.5-flash"):
+    def __init__(self, api_key: str, model: str = "gemini-2.0-flash"):
         from google import genai
 
         self.client = genai.Client(api_key=api_key)
@@ -113,6 +113,7 @@ class OpenAIClient:
                 "type": "tool_call",
                 "tool_name": tc.function.name,
                 "tool_args": json.loads(tc.function.arguments),
+                "tool_call_id": tc.id,
                 "text": "",
                 "tokens": response.usage.total_tokens,
             }
@@ -146,7 +147,7 @@ def get_llm_client():
         )
     else:
         logger.info(
-            "llm_client_initialized", provider="gemini", model="gemini-1.5-flash"
+            "llm_client_initialized", provider="gemini", model="gemini-2.0-flash"
         )
         _client = GeminiClient(api_key=settings.gemini_api_key)
 

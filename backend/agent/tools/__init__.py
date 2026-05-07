@@ -1,3 +1,4 @@
+# Gemini format (keep for reference)
 TOOL_DEFINITIONS_GEMINI = [
     {
         "function_declarations": [
@@ -25,7 +26,7 @@ TOOL_DEFINITIONS_GEMINI = [
                         "sql": {
                             "type": "string",
                             "description": "The SQL SELECT query to execute",
-                        }
+                        },
                     },
                 },
             },
@@ -38,11 +39,66 @@ TOOL_DEFINITIONS_GEMINI = [
                     "properties": {
                         "question": {"type": "string"},
                         "sql": {"type": "string"},
-                        "rows": {"type": "array"},
+                        "rows": {"type": "array", "items": {"type": "object"}},
                         "row_count": {"type": "integer"},
                     },
                 },
             },
         ]
     }
+]
+
+# OpenAI format
+TOOL_DEFINITIONS_OPENAI = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_schema",
+            "description": "Fetch the database schema including all tables, columns, data types, primary keys, and foreign keys",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "tables": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Optional list of specific table names. If omitted, fetches all tables.",
+                    }
+                },
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "run_query",
+            "description": "Execute a SELECT SQL query against the PostgreSQL database and return the results",
+            "parameters": {
+                "type": "object",
+                "required": ["sql"],
+                "properties": {
+                    "sql": {
+                        "type": "string",
+                        "description": "The SQL SELECT query to execute",
+                    },
+                },
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "explain_result",
+            "description": "Convert SQL query results into a clear plain English answer for the user",
+            "parameters": {
+                "type": "object",
+                "required": ["question", "sql", "rows", "row_count"],
+                "properties": {
+                    "question": {"type": "string"},
+                    "sql": {"type": "string"},
+                    "rows": {"type": "array", "items": {"type": "object"}},
+                    "row_count": {"type": "integer"},
+                },
+            },
+        },
+    },
 ]
